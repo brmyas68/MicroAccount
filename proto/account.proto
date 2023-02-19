@@ -1,0 +1,50 @@
+syntax ="proto3";
+option go_package ="account/pb";
+//import "google/protobuf/timestamp.proto";
+
+
+service AccountService {
+
+  rpc InsertAccount (RequestAccount) returns (ResponseAccount);
+  rpc GetUserAccounts (RequestUserAccount) returns (stream ResponseUserAccounts);
+  
+}
+
+message RequestUserAccount{
+    int32  UserID     = 1;
+}
+message ResponseUserAccounts{
+       IAccount         Account = 1;
+       StatusAccount    Status  = 2;
+}
+
+message RequestAccount{
+    IAccount  Account = 1;
+}
+message ResponseAccount{
+   int32         AccountID      = 1;
+   StatusAccount Status         = 2;
+}
+message IAccount{
+    int32  AccountID         = 1;
+	int32  AccountOrderID    = 2;
+    int32  AccountUserID     = 3;
+	//google.protobuf.Timestamp AccountDateTime = 4;
+    string  AccountDateTime  = 4;
+	int64  AccountPrice      = 5;
+	string AccountTypePay    = 6;
+}
+
+message StatusAccount{
+    StatusCodeAccount    StatusCode       = 1;
+    StatusMessageAccount StatusMessage    = 2;
+}
+enum StatusMessageAccount {
+    SUCCESS      = 0;
+    FAILED       = 1; 
+}
+enum StatusCodeAccount {
+    Status200 = 0;
+    Status400 = 1;
+    Status401 = 2;
+}
